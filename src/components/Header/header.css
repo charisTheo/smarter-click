@@ -1,0 +1,12 @@
+header {
+  width: 100%;
+  padding: 10px 20px;
+  text-align: left;
+  background-color: var(--color-foreground-3);
+  box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.6);
+}
+header img {
+  max-width: 200px;
+  float: left;
+  margin-left: 20px;
+}

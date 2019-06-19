@@ -16,8 +16,8 @@
     width: 240px;
 }
 .success {
-    background-color: var(--color-success) !important;
+    background-color: var(--color-foreground-success) !important;
 }
 .error {
-    background-color: var(--color-error) !important;
+    background-color: var(--color-foreground-error) !important;
 }

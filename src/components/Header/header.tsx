@@ -1,11 +1,12 @@
 import React from 'react'
 
+import logo from './../../images/smarter-click-logo.png'
 import './header.css'
 
 const Header: React.FC = () => {
     return (
         <header>
-          <h2>Logo</h2>
+          <img src={logo} alt="the Smarter Click logo" />
         </header>
     )
 }
