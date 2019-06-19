@@ -1,0 +1,16 @@
+#sign-up-form {
+    text-align: left;
+    padding: 20px;
+}
+#sign-up-form > .input-field {
+    display: block;
+    margin: 10px 0;
+    position: relative;
+}
+.error-message {
+    position: absolute;
+    bottom: 20px;
+    right: -65px;
+    font-size: 11px;
+    color: red;
+}

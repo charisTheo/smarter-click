@@ -1,8 +1,8 @@
 import React from 'react'
 
-import './dashboard.css'
+import './dashboardPage.css'
 
-const Dashboard = () => {
+const DashboardPage = () => {
     return (
         <div>
             <h2>Dashboard</h2>
@@ -10,4 +10,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default DashboardPage

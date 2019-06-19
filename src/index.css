@@ -1,3 +1,17 @@
+/* ---------------------------Variables--------------------------- */
+:root {
+  /* ---------------------------COLORS--------------------------- */
+  --color-main: #EC6952;
+  --color-background-1: #EDF3F9;
+  --color-background-2: #F0F6FC;
+  --color-foreground-1: #80A4CE;
+  --color-foreground-2: #4E96DD;
+  --color-foreground-3: #2B67AD;
+  --color-foreground-4: #7EA0B7;
+  --color-foreground-success: #9BC1BC;
+  --color-foreground-error: #D39292;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,3 +25,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

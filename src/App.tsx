@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Footer from './components/Footer/footer'
 import './App.css';
-import Home from './components/Home/home';
-import Photos from './components/Photos/photos';
-import Dashboard from './components/Dashboard/dashboard';
+import NewUserPage from './components/NewUser/newUserPage';
+import PhotosPage from './components/Photos/photosPage';
+import DashboardPage from './components/Dashboard/dashboardPage';
 import Header from './components/Header/header';
 
 const App: React.FC = () => {
@@ -15,9 +15,9 @@ const App: React.FC = () => {
         <Header />
 
         <main>
-            <Route exact path="/" component={Home} />
-            <Route path="/photos" component={Photos} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route exact path="/newUser" component={NewUserPage} />
+            <Route path="/photos" component={PhotosPage} />
+            <Route path="/dashboard" component={DashboardPage} />
         </main>
 
         <Footer />

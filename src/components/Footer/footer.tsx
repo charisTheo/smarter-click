@@ -1,24 +1,12 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React from 'react'
 
 import './footer.css'
+import Nav from './nav'
 
 const Footer: React.FC = () => {
     return (
         <footer>
-          <nav>
-            <ul className="footer-nav-list">
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/photos">Photos</Link>
-              </li>
-              <li>
-                <Link to="/dashboard">Dashboard</Link>
-              </li>            
-            </ul>
-          </nav>
+          <Nav />
         </footer>
     )
 }

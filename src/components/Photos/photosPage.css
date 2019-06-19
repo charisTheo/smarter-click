@@ -1,0 +1,9 @@
+/* #photos-page {
+
+} */
+.photo-container {
+    text-align: center;
+}
+.photo-container img {
+    max-width: 85vw;
+}
