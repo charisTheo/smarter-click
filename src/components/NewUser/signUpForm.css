@@ -4,13 +4,20 @@
 }
 #sign-up-form > .input-field {
     display: block;
-    margin: 10px 0;
     position: relative;
+    margin-bottom: 35px;
 }
 .error-message {
     position: absolute;
-    bottom: 20px;
-    right: -65px;
+    top: -15px;
+    left: 0;
     font-size: 11px;
     color: red;
+    width: 240px;
+}
+.success {
+    background-color: var(--color-success) !important;
+}
+.error {
+    background-color: var(--color-error) !important;
 }

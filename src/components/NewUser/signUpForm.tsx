@@ -1,85 +1,144 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+import CloseIcon from '@material-ui/icons/Close';
 
 import './signUpForm.css'
+import { SnackbarContent, IconButton } from '@material-ui/core';
 
 const initialState = {
-    formIsValid: true,
+    formSubmitMessageClassName: "",
+    formSubmitMessageText: "",
+    showFormSubmitMessage: false,
+    formIsValid: false,
     name: {
         value: "",
-        minLength: 8,
+        minLength: 3,
         isValid: false,
-        errorMessages: []
+        errorMessage: ""
     },
     email: {
         value: "",
         minLength: 6,
         isValid: false,
-        errorMessages: []
+        errorMessage: ""
     },
     password: {
         value: "",
         minLength: 8,
         isValid: false,
-        errorMessages: []
+        errorMessage: ""
     }
 }
 
+const FORM_SUBMIT_MESSAGE_SUCCESS_CLASS_NAME: string = "success"
+const FORM_SUBMIT_MESSAGE_ERROR_CLASS_NAME: string = "error"
+
 Object.freeze(initialState)
 
+interface ISignUpFormState {
+    [key: string]: any
+    formSubmitMessageClassName: string
+    formSubmitMessageText: string
+    showFormSubmitMessage: boolean
+    formIsValid: boolean
+}
+
 export default class SignUpForm extends React.Component {
-    state = {
+    state: ISignUpFormState = {
         ...initialState
+    }
+
+    getFormValidity = () => {
+        const {name, email, password} = this.state
+        const nameIsValid = getInputValidity(name)
+        const emailIsValid = getInputValidity(email)
+        const passwordIsValid = getInputValidity(password)
+        
+        if (nameIsValid && emailIsValid && passwordIsValid) {
+            return true
+        } else {
+            return false
+        }
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         let input = event.currentTarget;
+        let prevStateInputData: Object = this.state[input.name];
+
         this.setState({
             [input.name]: {
+                ...prevStateInputData,
                 value: input.value
+            }
+        }, () => {
+            // check form validity and set it to state only if the validity has changed
+            let formIsValid = this.getFormValidity()
+            let prevFormValidity = this.state.formIsValid
+            if (formIsValid !== prevFormValidity) {
+                this.setState({
+                    formIsValid
+                })
             }
         })
     }
 
     handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        const {name, email, password} = this.state;
-        const nameValidity = getInputValidity(name);
-        const emailValidity = getInputValidity(email);
-        const passwordValidity = getInputValidity(password);
+        const {name, email, password, formIsValid} = this.state;
         
-        if (nameValidity.isValid && emailValidity.isValid && passwordValidity.isValid) {
-            // all inputs are valid, submit the form
+        if (formIsValid) {
+            // form is valid, submit it 
+            let submittedFormSuccessMessage = "Your have successfully signed up!"
             // set to initial state
             this.setState({
-                formIsValid: true,
-                ...initialState
+                ...initialState,
+                showFormSubmitMessage: true,
+                formSubmitMessageText: submittedFormSuccessMessage,
+                formSubmitMessageClassName: FORM_SUBMIT_MESSAGE_SUCCESS_CLASS_NAME
             })
         } else {
-            // display error messages
-            this.setState(prevState => ({
+            let submittedFormErrorMessage = "Oops... Please check the errors!"
+            // display the error messages
+            this.setState({
                 formIsValid: false,
+                showFormSubmitMessage: true,
+                formSubmitMessageText: submittedFormErrorMessage,
+                formSubmitMessageClassName: FORM_SUBMIT_MESSAGE_ERROR_CLASS_NAME,
                 name: {
-                    ...prevState,
-                    ...nameValidity
+                    ...name,
+                    isValid: getInputValidity(name),
+                    errorMessage: getErrorMessageIfAny(name, "Name")
                 },
                 email: {
-                    ...prevState,
-                    ...emailValidity
+                    ...email,
+                    isValid: getInputValidity(email),
+                    errorMessage: getErrorMessageIfAny(email, "Email")
                 },
                 password: {
-                    ...prevState,
-                    ...passwordValidity
+                    ...password,
+                    isValid: getInputValidity(password),
+                    errorMessage: getErrorMessageIfAny(password, "Password")
                 }
-            }))
-        }    
+            })
+        }
+        
+        setTimeout(() => {
+            this.setState({
+                showFormSubmitMessage: false
+            })
+        }, 4000)
     }
 
-    renderErrorMessages = (errorMessages: Array<String>) => {
-        return errorMessages.map((errorMessage, index) => (
-            <span key={"error-message-" + index} className="error-message">{errorMessage}</span>
-        ))
+    handleFormSubmitMessageClose = (event: React.SyntheticEvent) => {
+        event.preventDefault()
+        this.setState({
+            showFormSubmitMessage: false,
+            formSubmitMessageText: ""
+        })
     }
 
     render() {
@@ -95,7 +154,7 @@ export default class SignUpForm extends React.Component {
                         name="name" 
                         onChange={this.handleChange}
                     />
-                    {(!formIsValid && name.errorMessages.length) && this.renderErrorMessages(name.errorMessages)}
+                    {(!formIsValid && name.errorMessage) && <span className="error-message">{name.errorMessage}</span>}
                 </div>
 
                 <div className="input-field"> 
@@ -106,7 +165,7 @@ export default class SignUpForm extends React.Component {
                         name="email" 
                         onChange={this.handleChange}
                     />
-                    {(!formIsValid && email.errorMessages.length) && this.renderErrorMessages(email.errorMessages)}
+                    {(!formIsValid && email.errorMessage) && <span className="error-message">{email.errorMessage}</span>}
                 </div>
 
                 <div className="input-field"> 
@@ -117,10 +176,41 @@ export default class SignUpForm extends React.Component {
                         name="password" 
                         onChange={this.handleChange}
                     />
-                    {(!formIsValid && password.errorMessages.length) && this.renderErrorMessages(password.errorMessages)}
+                    {(!formIsValid && password.errorMessage) && <span className="error-message">{password.errorMessage}</span>}
                 </div>
 
-                <input type="submit" value="Submit" />
+                <Button
+                    variant="outlined" 
+                    color="secondary" 
+                    disabled={!formIsValid}
+                    type="submit"
+                >
+                    Submit
+                </Button>
+                <Snackbar
+                    open={this.state.showFormSubmitMessage}
+                    TransitionComponent={(props) => (<Slide {...props} direction="up" />)}
+                >
+                    <SnackbarContent
+                        className={this.state.formSubmitMessageClassName}
+                        aria-describedby="client-snackbar"
+                        message={
+                            <span id="client-snackbar">
+                                {this.state.formSubmitMessageText}
+                            </span>
+                        }
+                        action={[
+                            <IconButton 
+                                key="close" 
+                                aria-label="Close" 
+                                color="inherit" 
+                                onClick={this.handleFormSubmitMessageClose}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        ]}
+                    />
+                </Snackbar>
             </form>
         )
     }
@@ -128,29 +218,39 @@ export default class SignUpForm extends React.Component {
 
 /**
  * @param {object} input
- * @param {String} input.value
- * @param {Number} input.minLength
- * @param {Boolean} answer.isValid
- * @param {Boolean} answer.errorMessage
- * @returns {Object} answer
+ * @property {string} input.value
+ * @property {number} input.minLength
+ * @returns {boolean} isValid
  */
-function getInputValidity(input: any) {
+let getInputValidity = (input: any) => {
     let value = input.value
     let minLength = input.minLength
-    let isValid: Boolean = false
-    let errorMessages: Array<String> = []
     
     if (value && value !== "" && value.length >= minLength) {
-        isValid = true
-    } else if (!value || value === "") {
-        errorMessages.push("This field cannot be empty!")
-    } else if (value.length < minLength) {
-        errorMessages.push(`This field has to have at least ${minLength} characters!`)
+        return true
+    } else {
+        return false
     }
+}
+
+
+/**
+ * @param {object} input
+ * @property {string} input.value
+ * @property {number} input.minLength
+ * @param {string} inputName
+ * @returns {string} errorMessage
+ */
+let getErrorMessageIfAny = (input: any, inputName: string) => {
+    let value: any = input.value
+    let minLength: number = input.minLength
+    let errorMessage: string = ""
     
-    let answer = {
-        isValid,
-        errorMessages
+    if (!value || value === "") {
+        errorMessage = `${inputName} cannot be empty!`
+    } else if (value.length < minLength) {
+        errorMessage = `${inputName} has to have at least ${minLength} characters!`
     }
-    return answer
+
+    return errorMessage
 }

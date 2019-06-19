@@ -10,6 +10,9 @@
   --color-foreground-4: #7EA0B7;
   --color-foreground-success: #9BC1BC;
   --color-foreground-error: #D39292;
+
+  --color-success: #43a047;
+  --color-error: #d32f30; 
 }
 
 body {
