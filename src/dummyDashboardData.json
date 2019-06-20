@@ -1,0 +1,40 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Mark",
+            "surname": "Render",
+            "impressions": 6,
+            "overlays shown": 19,
+            "overlays clicked": 4,
+            "revenue": 7.40
+        },
+        {
+            "id": 2,
+            "name": "Charis",
+            "surname": "Theo",
+            "impressions": 13,
+            "overlays shown": 9,
+            "overlays clicked": 2,
+            "revenue": 2.10
+        },
+        {
+            "id": 3,
+            "name": "John",
+            "surname": "Doe",
+            "impressions": 5,
+            "overlays shown": 15,
+            "overlays clicked": 7,
+            "revenue": 4.60
+        },
+        {
+            "id": 4,
+            "name": "Foo",
+            "surname": "Bar",
+            "impressions": 10,
+            "overlays shown": 25,
+            "overlays clicked": 14,
+            "revenue": 13.20
+        }
+    ] 
+}

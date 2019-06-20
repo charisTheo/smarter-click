@@ -6,7 +6,7 @@ import './newUserPage.css'
 const NewUserPage: React.FC = () => {
     return (
         <div>
-            <h2>New User</h2>            
+            <h3>New User</h3>
             <SignUpForm />
         </div>
     )

@@ -1,0 +1,19 @@
+@media screen and (max-width: 1023px) {
+    .table {
+        max-width: 90vw;
+    }
+    .table h6 {
+        font-size: 11px;
+    }
+    .table span {
+        font-size: 9px;
+    }
+    .table td {
+        font-size: 11px;
+    }
+     /* edit and delete buttons */
+    .table td span svg {
+        width: 0.7em;
+        height: 0.7em;
+    }
+}

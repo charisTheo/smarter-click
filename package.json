@@ -10,11 +10,14 @@
     "@types/react": "16.8.20",
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.4",
+    "@types/underscore.string": "0.0.38",
+    "material-table": "^1.39.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.2"
+    "typescript": "3.5.2",
+    "underscore.string": "^3.3.5"
   },
   "scripts": {
     "start": "react-scripts start",
