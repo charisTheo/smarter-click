@@ -2,10 +2,14 @@
     text-align: center;
     padding: 20px;
 }
+#sign-up-form > .input-field > div {
+    width: 100%;
+}
 #sign-up-form > .input-field {
     display: block;
     position: relative;
     margin-bottom: 35px;
+    width: 100%;
 }
 .error-message {
     position: absolute;

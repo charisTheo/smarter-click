@@ -24,7 +24,7 @@ let defaultColumns: Array<Column> = Object.keys(users[0]).map(field => {
     let value = users[0][field]
     let typeIsNumeric = typeof value === 'number'
     let typeIsCurrency = typeIsNumeric && ( value % 1 > 0 )
-    // type?: ('string' | 'boolean' | 'numeric' | 'date' | 'datetime' | 'time' | 'currency');
+    // type?: ('string' | 'boolean' | 'numeric' | 'date' | 'datetime' | 'time' | 'currency')
     let type = typeIsCurrency ? 'currency' : typeIsNumeric ? 'numeric' : 'string' 
 
     return {
@@ -54,29 +54,29 @@ class DashboardPage extends React.Component {
                             onRowAdd: newData =>
                                 new Promise(resolve => {
                                 setTimeout(() => {
-                                    resolve();
-                                    const data = [...this.state.data];
-                                    data.push(newData);
-                                    this.setState({ ...this.state, data });
-                                    }, 600);
+                                    resolve()
+                                    const data = [...this.state.data]
+                                    data.push(newData)
+                                    this.setState({ ...this.state, data })
+                                    }, 600)
                                 }),
                                 onRowUpdate: (newData, oldData) =>
                                 new Promise(resolve => {
                                     setTimeout(() => {
-                                        resolve();
-                                        const data = [...this.state.data];
-                                        data[data.indexOf(oldData)] = newData;
-                                        this.setState({ ...this.state, data });
-                                    }, 600);
+                                        resolve()
+                                        const data = [...this.state.data]
+                                        data[data.indexOf(oldData)] = newData
+                                        this.setState({ ...this.state, data })
+                                    }, 600)
                                 }),
                                 onRowDelete: oldData =>
                                 new Promise(resolve => {
                                     setTimeout(() => {
-                                        resolve();
-                                        const data = [...this.state.data];
-                                        data.splice(data.indexOf(oldData), 1);
-                                        this.setState({ ...this.state, data });
-                                    }, 600);
+                                        resolve()
+                                        const data = [...this.state.data]
+                                        data.splice(data.indexOf(oldData), 1)
+                                        this.setState({ ...this.state, data })
+                                    }, 600)
                                 }),
                             }}
                             icons={{ 

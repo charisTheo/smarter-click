@@ -1,12 +1,33 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import Slide from '@material-ui/core/Slide';
-import CloseIcon from '@material-ui/icons/Close';
+import { SnackbarContent, IconButton, Input, InputAdornment, FormControl, InputLabel } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Snackbar from '@material-ui/core/Snackbar'
+import Slide from '@material-ui/core/Slide'
+import CloseIcon from '@material-ui/icons/Close'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 import './signUpForm.css'
-import { SnackbarContent, IconButton } from '@material-ui/core';
+
+interface ISignUpFormState {
+    [key: string]: any
+    formSubmitMessageClassName: string
+    formSubmitMessageText: string
+    showFormSubmitMessage: boolean
+    formIsValid: boolean
+    name: IInput
+    email: IInput
+    password: IInput
+}
+
+interface IInput {
+    value: string
+    minLength: number
+    isValid: boolean
+    errorMessage: string
+    show: boolean
+}
 
 const initialState = {
     formSubmitMessageClassName: "",
@@ -17,19 +38,22 @@ const initialState = {
         value: "",
         minLength: 3,
         isValid: false,
-        errorMessage: ""
+        errorMessage: "",
+        show: true
     },
     email: {
         value: "",
         minLength: 6,
         isValid: false,
-        errorMessage: ""
+        errorMessage: "",
+        show: true
     },
     password: {
         value: "",
         minLength: 8,
         isValid: false,
-        errorMessage: ""
+        errorMessage: "",
+        show: false
     }
 }
 
@@ -38,17 +62,19 @@ const FORM_SUBMIT_MESSAGE_ERROR_CLASS_NAME: string = "error"
 
 Object.freeze(initialState)
 
-interface ISignUpFormState {
-    [key: string]: any
-    formSubmitMessageClassName: string
-    formSubmitMessageText: string
-    showFormSubmitMessage: boolean
-    formIsValid: boolean
-}
-
 export default class SignUpForm extends React.Component {
     state: ISignUpFormState = {
         ...initialState
+    }
+
+    handleClickShowPassword = () => {
+        this.setState((prevState: ISignUpFormState) => ({
+            ...prevState,
+            password: {
+                ...prevState.password,
+                show: !prevState.password.show
+            }
+        }))
     }
 
     getFormValidity = () => {
@@ -65,9 +91,9 @@ export default class SignUpForm extends React.Component {
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        let input = event.currentTarget;
-        let prevStateInputData: Object = this.state[input.name];
+        event.preventDefault()
+        let input = event.currentTarget
+        let prevStateInputData: Object = this.state[input.name]
 
         this.setState({
             [input.name]: {
@@ -87,8 +113,8 @@ export default class SignUpForm extends React.Component {
     }
 
     handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        const {name, email, password, formIsValid} = this.state;
+        event.preventDefault()
+        const {name, email, password, formIsValid} = this.state
         
         if (formIsValid) {
             // form is valid, submit it 
@@ -150,6 +176,7 @@ export default class SignUpForm extends React.Component {
                     <TextField 
                         label="Name"
                         required
+                        placeholder="First name"
                         value={name.value} 
                         name="name" 
                         onChange={this.handleChange}
@@ -157,28 +184,41 @@ export default class SignUpForm extends React.Component {
                     {(!formIsValid && name.errorMessage) && <span className="error-message">{name.errorMessage}</span>}
                 </div>
 
-                <div className="input-field"> 
-                    <TextField 
-                        label="Email"
+                <FormControl className="input-field">
+                    <InputLabel htmlFor="adornment-email">Email *</InputLabel>
+                    <Input 
+                        id="adornment-email"
                         required
+                        placeholder="for@example.com"
                         value={email.value} 
                         name="email" 
+                        type="email"
                         onChange={this.handleChange}
                     />
                     {(!formIsValid && email.errorMessage) && <span className="error-message">{email.errorMessage}</span>}
-                </div>
+                </FormControl>
 
-                <div className="input-field"> 
-                    <TextField 
-                        label="Password"
+                <FormControl className="input-field">
+                    <InputLabel htmlFor="adornment-password">Password *</InputLabel>
+                    <Input 
                         required
+                        id="adornment-password"
                         value={password.value} 
                         name="password" 
+                        placeholder="New password"
                         onChange={this.handleChange}
+                        type={password.show ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
+                                    {password.show ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
                     />
                     {(!formIsValid && password.errorMessage) && <span className="error-message">{password.errorMessage}</span>}
-                </div>
-
+                </FormControl>
+                
                 <Button
                     variant="outlined" 
                     color="secondary" 
@@ -187,6 +227,7 @@ export default class SignUpForm extends React.Component {
                 >
                     Submit
                 </Button>
+
                 <Snackbar
                     open={this.state.showFormSubmitMessage}
                     TransitionComponent={(props) => (<Slide {...props} direction="up" />)}
@@ -217,12 +258,10 @@ export default class SignUpForm extends React.Component {
 }
 
 /**
- * @param {object} input
- * @property {string} input.value
- * @property {number} input.minLength
+ * @param {IInput} input
  * @returns {boolean} isValid
  */
-let getInputValidity = (input: any) => {
+let getInputValidity = (input: IInput): boolean => {
     let value = input.value
     let minLength = input.minLength
     
@@ -235,13 +274,11 @@ let getInputValidity = (input: any) => {
 
 
 /**
- * @param {object} input
- * @property {string} input.value
- * @property {number} input.minLength
+ * @param {IInput} input
  * @param {string} inputName
  * @returns {string} errorMessage
  */
-let getErrorMessageIfAny = (input: any, inputName: string) => {
+let getErrorMessageIfAny = (input: IInput, inputName: string): string => {
     let value: any = input.value
     let minLength: number = input.minLength
     let errorMessage: string = ""

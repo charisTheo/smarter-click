@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SignUpForm from './signUpForm';
+import SignUpForm from './signUpForm'
 import './newUserPage.css'
 
 const NewUserPage: React.FC = () => {

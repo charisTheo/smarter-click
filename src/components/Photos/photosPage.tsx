@@ -1,6 +1,7 @@
 import React from 'react'
 
-import photo from "./../../images/photo.png";
+import photo from "./../../images/photo.png"
+
 import './photosPage.css'
 
 const PhotosPage: React.FC = () => {
